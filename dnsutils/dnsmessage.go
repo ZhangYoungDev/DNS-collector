@@ -118,6 +118,8 @@ type CollectorPowerDNS struct {
 	RequestorID           string            `json:"requestor-id"`
 	DeviceName            string            `json:"device-name"`
 	DeviceID              string            `json:"device-id"`
+	OpenTelemetryData     string            `json:"opentelemetry-data"`
+	EdnsVersion           string            `json:"edns-version"`
 }
 
 type LoggerOpenTelemetry struct {

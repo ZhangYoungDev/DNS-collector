@@ -192,6 +192,18 @@ func (dm *DNSMessage) handlePdnsDirectives(directive string, s *strings.Builder)
 			} else {
 				s.WriteString("-")
 			}
+		case "powerdns-edns-version":
+			if len(dm.PowerDNS.EdnsVersion) > 0 {
+				s.WriteString(dm.PowerDNS.EdnsVersion)
+			} else {
+				s.WriteString("-")
+			}
+		case "powerdns-opentelemetry-data":
+			if len(dm.PowerDNS.OpenTelemetryData) > 0 {
+				s.WriteString(dm.PowerDNS.OpenTelemetryData)
+			} else {
+				s.WriteString("-")
+			}
 		default:
 			return errors.New(ErrorUnexpectedDirective + directive)
 		}

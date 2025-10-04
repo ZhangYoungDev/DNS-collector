@@ -74,6 +74,8 @@ If you logs your DNS traffic in basic text format, you can use the specific dire
 * `powerdns-requestor-id`: requestor id
 * `powerdns-device-id`: device id
 * `powerdns-device-name`: device name
+* `powerdns-edns-version`: EDNS version
+* `powerdns-opentelemetry-data`: Open Telemetry data
 
 Configuration example:
 

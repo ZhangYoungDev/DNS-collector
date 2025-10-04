@@ -340,6 +340,14 @@ func (w *PdnsProcessor) StartCollect() {
 			}
 			pdns.Tags = tags
 
+			// get powerdns oepn telemetry data
+			opendata := pbdm.GetOpenTelemetryData()
+			pdns.OpenTelemetryData = hex.EncodeToString(opendata)
+
+			// get powerdns edns version
+			ednsVersion := pbdm.GetEdnsVersion()
+			pdns.EdnsVersion = strconv.Itoa(int(ednsVersion))
+
 			// get PowerDNS policy applied
 			pdns.AppliedPolicy = pbdm.GetResponse().GetAppliedPolicy()
 			pdns.AppliedPolicyHit = pbdm.GetResponse().GetAppliedPolicyHit()
