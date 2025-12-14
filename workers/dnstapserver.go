@@ -451,6 +451,15 @@ func (w *DNSTapProcessor) StartCollect() {
 				dm.DNS.Type = dnsutils.DNSReply
 				dm.DNSTap.TimeSec = int(dt.GetMessage().GetResponseTimeSec())
 				dm.DNSTap.TimeNsec = int(dt.GetMessage().GetResponseTimeNsec())
+
+				tsQuery := float64(dt.GetMessage().GetQueryTimeSec()) + float64(dt.GetMessage().GetQueryTimeNsec())/1e9
+				tsReply := float64(dt.GetMessage().GetResponseTimeSec()) + float64(dt.GetMessage().GetResponseTimeNsec())/1e9
+
+				// compute latency
+				if tsQuery != 0 && tsReply >= tsQuery {
+					dm.DNSTap.Latency = tsReply - tsQuery
+					dm.DNSTap.LatencyMs = int((tsReply - tsQuery) * 1000)
+				}
 			}
 
 			// policy
