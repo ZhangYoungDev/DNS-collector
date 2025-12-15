@@ -49,17 +49,15 @@ jobs:
       matrix:
         config:
           - { service: "unbound", version: "1.24.2", mode: "tcp" }
-          - { service: "coredns", version: "1.13.1", mode: "tcp" }
-          - { service: "coredns", version: "1.13.1", mode: "tls" }
-          - { service: "coredns", version: "1.12.1", mode: "tcp" }
-          - { service: "coredns", version: "1.12.1", mode: "tls" }
+          - { service: "coredns", version: "1.13.2", mode: "tcp" }
+          - { service: "coredns", version: "1.13.2", mode: "tls" }
           - { service: "dnsdist", version: "19", mode: "tcp" }
           - { service: "dnsdist", version: "19", mode: "unix" }
           - { service: "dnsdist", version: "19", mode: "doq" }
           - { service: "dnsdist2", version: "20", mode: "tcp" }
           - { service: "dnsdist2", version: "20", mode: "doq" }
           - { service: "knotresolver", version: "6.0.16", mode: "unix" }
-          #- { service: "bind9", version: "9.18.33-r0", mode: "unix" }
+          # - { service: "bind9", version: "9.20.16-r0", mode: "unix" }
 
     steps:
       - uses: actions/checkout@v6
@@ -98,7 +96,7 @@ jobs:
         run: echo "COLLECTOR_USER=root" >> $GITHUB_ENV
       - name: Set environment variable for bind9
         if: ${{ matrix.config.service == 'bind9' }}
-        run: echo "COLLECTOR_USER=runneradmin" >> $GITHUB_ENV
+        run: echo "COLLECTOR_USER=root" >> $GITHUB_ENV
 
       - name: Add pdns user for unix socket test
         run: |
@@ -125,9 +123,9 @@ jobs:
             "knotresolver")
               sudo docker run -d --network="host" --name=dnsserver --volume=$PWD/tests/testsdata/knot/knotresolver_${{ matrix.config.mode }}.yml:/etc/knot-resolver/config.yaml:z -v /tmp/dnstap-socket/:/tmp/ cznic/knot-resolver:v${{ matrix.config.version }}
               ;;
-            "bind9")
-              sudo docker run -d --network="host" --name=dnsserver --volume=$PWD/tests/testsdata/bind/bind9_${{ matrix.config.mode }}.conf:/etc/bind/named.conf:z -v /tmp/dnstap-socket/:/tmp/ dmachard/bind9:${{ matrix.config.version }}
-              ;;
+            # "bind9")
+            #   sudo docker run -d --network="host" --name=dnsserver --volume=$PWD/tests/testsdata/bind/bind9_${{ matrix.config.mode }}.conf:/etc/bind/named.conf:z -v /tmp/dnstap-socket/:/tmp/ dmachard/bind9:${{ matrix.config.version }}
+            #   ;;
           esac
           until (dig -p 5553 www.github.com @127.0.0.1 | grep NOERROR); do sleep 5.0; done
 
