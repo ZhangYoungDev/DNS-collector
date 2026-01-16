@@ -32,7 +32,7 @@ const (
 	CompressGzip   = "gzip"
 	CompressSnappy = "snappy"
 	CompressLz4    = "lz4"
-	CompressZstd   = "ztd"
+	CompressZstd   = "zstd"
 	CompressNone   = "none"
 )
 
